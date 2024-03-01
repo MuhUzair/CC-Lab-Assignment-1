@@ -10,6 +10,7 @@ bool isDataType(const string& token);
 bool isSpecialChar(char c);
 bool isNumber(const string& token);
 bool isOperator(const string& token);
+void identifySpecificOperator(const string& token); // Function for specific operator identification
 
 int main() {
     string inputCode;
@@ -45,14 +46,26 @@ int main() {
 void identifyToken(const string& token) {
     if (isNumber(token)) {
         cout << token << " is a number.\n";
-    } else if (token.size() == 1 && (isSpecialChar(token[0]) || isOperator(token))) {
-        cout << token << " is an operator or special character.\n";
+    } else if (isOperator(token)) {
+        identifySpecificOperator(token); // Use the new function for specific operator identification
+    } else if (isSpecialChar(token[0]) && token.size() == 1) {
+        cout << token << " is a special character.\n";
     } else if (isKeyword(token)) {
         cout << token << " is a keyword.\n";
     } else if (isDataType(token)) {
         cout << token << " is a data type.\n";
     } else {
         cout << token << " is an identifier.\n";
+    }
+}
+
+void identifySpecificOperator(const string& token) {
+    if (token == "+" || token == "-" || token == "*" || token == "/" || token == "%") {
+        cout << token << " is an arithmetic operator.\n";
+    } else if (token == "=") {
+        cout << token << " is an assignment operator.\n";
+    } else {
+        cout << token << " is an operator.\n";
     }
 }
 
